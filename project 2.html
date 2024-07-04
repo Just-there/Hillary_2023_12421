@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        /* CSS styling */
+        .stopwatch {
+            width: 200px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        #display {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="stopwatch">
+        <h1>Stopwatch</h1>
+        <div id="display">00:00:00</div>
+        <button id="startStop" onclick="startStop()">Start</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+
+    <script>
+        // JavaScript for stopwatch functionality
+        var startTime;
+        var isRunning = false;
+
+        function startStop() {
+            if (!isRunning) {
+                startTime = Date.now();
+                isRunning = true;
+                document.getElementById("startStop").textContent = "Stop";
+                runTimer();
+            } else {
+                isRunning = false;
+                document.getElementById("startStop").textContent = "Start";
+            }
+        }
+
+        function runTimer() {
+            if (isRunning) {
+                var currentTime = Date.now() - startTime;
+                var hours = Math.floor(currentTime / (1000 * 60 * 60));
+                var minutes = Math.floor((currentTime % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((currentTime % (1000 * 60)) / 1000);
+
+                hours = (hours < 10) ? "0" + hours : hours;
+                minutes = (minutes < 10) ? "0" + minutes : minutes;
+                seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+                document.getElementById("display").textContent = hours + ":" + minutes + ":" + seconds;
+
+                setTimeout(runTimer, 1000);
+            }
+        }
+
+        function reset() {
+            document.getElementById("display").textContent = "00:00:00";
+            isRunning = false;
+            document.getElementById("startStop").textContent = "Start";
+        }
+    </script>
+</body>
+</html>
